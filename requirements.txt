@@ -1,0 +1,8 @@
+fastapi[standard]
+fastapi-mcp
+mcp
+akshare
+pandas
+httpx
+python-dotenv
+uvicorn
