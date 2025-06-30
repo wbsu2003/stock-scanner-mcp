@@ -1,8 +1,13 @@
-fastapi[standard]
-fastapi-mcp
-mcp
-akshare
-pandas
-httpx
-python-dotenv
-uvicorn
+# Core dependencies
+fastapi==0.115.14
+fastapi-mcp==0.3.4 # Check for compatibility if issues arise; a common recent version
+uvicorn[standard]==0.34.0
+pydantic==2.11.7
+httpx==0.28.1
+python-dotenv==1.1.1
+loguru==0.7.2
+
+# Data processing and analysis
+numpy==2.0.0
+pandas==2.2.2
+akshare==1.17.9
