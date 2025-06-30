@@ -58,22 +58,26 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 服务提供以下核心 API 接口：
 
--   **获取股票数据**: `GET /stock-data/{stock_code}`
-    -   获取指定股票代码的历史数据。
--   **分析单只股票**: `POST /analyze`
-    -   对单只股票进行全面分析，包括技术指标计算和 AI 分析。支持流式响应模式。
--   **批量扫描股票**: `POST /scan`
-    -   批量扫描多只股票，筛选出符合条件的股票。支持设置最低评分阈值和流式响应模式。
--   **批量获取股票数据**: `POST /stock-data-batch`
-    -   一次性获取多只股票的历史数据。
+-   **分析单只股票**: `GET /stock_analyzer`
+    -   通过股票代码和市场类型分析股票，返回包括价格、评分、技术分析和AI分析等综合信息，支持流式响应。
+-   **获取股票价格信息**: `GET /stock_price`
+    -   获取指定股票的最新价格、涨跌幅等基本价格信息。
+-   **获取股票技术分析**: `GET /stock_technical_analysis`
+    -   获取股票的技术指标分析，包括MA趋势、RSI、MACD信号、布林带等技术指标。
+-   **获取股票评分**: `GET /stock_score`
+    -   获取股票的综合评分和投资建议。
+-   **获取股票AI分析**: `GET /stock_ai_analysis`
+    -   使用AI对股票进行深度分析，提供趋势、风险、目标价位等综合分析结果。
 
 ## MCP 工具函数
 
 FastApiMCP 库会自动将上述 API 注册为 MCP 工具函数，可通过 `/mcp` 端点获取其定义。以下是主要 MCP 工具函数：
 
-1.  `analyze_stock` - 分析单只股票 (对应 `POST /analyze` 接口)
-2.  `scan_stocks` - 批量扫描股票 (对应 `POST /scan` 接口)
-3.  `get_stock_data` - 获取股票数据 (对应 `GET /stock-data/{stock_code}` 接口)
+1.  `analyze_stock` - 分析单只股票 (对应 `GET /stock_analyzer` 接口)
+2.  `get_stock_price` - 获取股票价格信息 (对应 `GET /stock_price` 接口)
+3.  `get_technical_analysis` - 获取股票技术分析 (对应 `GET /stock_technical_analysis` 接口)
+4.  `get_stock_score` - 获取股票评分 (对应 `GET /stock_score` 接口)
+5.  `get_ai_analysis` - 获取股票AI分析 (对应 `GET /stock_ai_analysis` 接口)
 
 这些工具函数可以直接被大语言模型调用。
 
@@ -96,13 +100,11 @@ FastApiMCP 库会自动将上述 API 注册为 MCP 工具函数，可通过 `/mc
 -   **全面错误处理**: 包含详细的异常捕获和错误响应机制。
 -   **MCP 工具集成**: 使用 FastApiMCP 库自动将 API 转换为 MCP 工具函数。
 
-## SSE 端点
+## 流式 API 端点
 
-客户端可以通过 `/mcp` 端点进行访问，以获取实时数据流：
+`stock_analyzer` 接口 (`GET /stock_analyzer`) 支持流式响应，客户端可以通过标准的 HTTP 请求访问，并处理服务端发送事件（SSE）流。
 
-```
-http://localhost:8000/mcp
-```
+FastApiMCP 的 `/mcp` 端点也提供了工具定义的流式访问能力。
 
 ## 健康检查
 
@@ -121,21 +123,25 @@ http://localhost:8000/health
 ```python
 import mcp
 
-# 示例：获取 MCP 工具定义
-# response = await mcp.get_tool_definitions("http://localhost:8000/mcp")
-# print(response)
+# 示例：分析单只股票 (流式响应)
+async for chunk in mcp.use_tool("analyze_stock", {"stock_code": "600795", "market_type": "A"}):
+    print(chunk)
 
-# 示例：分析单只股票
-# result = await mcp.use_tool("analyze_stock", {"stock_code": "000001", "market_type": "A"})
-# print(result)
+# 示例：获取股票价格信息
+price_info = await mcp.use_tool("get_stock_price", {"stock_code": "600795", "market_type": "A"})
+print(price_info)
 
-# 示例：批量扫描股票
-# scan_results = await mcp.use_tool("scan_stocks", {"stock_codes": ["000001", "000002"], "min_score": 70})
-# print(scan_results)
+# 示例：获取股票技术分析
+tech_analysis = await mcp.use_tool("get_technical_analysis", {"stock_code": "600795", "market_type": "A"})
+print(tech_analysis)
 
-# 示例：获取股票历史数据
-# data = await mcp.use_tool("get_stock_data", {"stock_code": "000001", "start_date": "2023-01-01", "end_date": "2023-12-31"})
-# print(data)
+# 示例：获取股票评分
+score_info = await mcp.use_tool("get_stock_score", {"stock_code": "600795", "market_type": "A"})
+print(score_info)
+
+# 示例：获取股票AI分析
+ai_analysis_result = await mcp.use_tool("get_ai_analysis", {"stock_code": "600795", "market_type": "A"})
+print(ai_analysis_result)
 ```
 
 ### 访问 API 文档
@@ -146,13 +152,6 @@ import mcp
 http://localhost:8000/docs
 ```
 
-## 未来改进方向
-
--   添加用户认证和权限控制。
--   增加缓存机制，提高数据获取效率。
--   实现更多市场和金融产品的支持。
--   优化 AI 分析模型和提示词。
--   添加更多技术指标和分析策略。
 
 ## 依赖项
 
