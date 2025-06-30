@@ -1,8 +1,12 @@
 # 股票分析 MCP 服务
 
+**什么是 mcp-stock-scanner ？**
+
+> `mcp-stock-scanner` 是基于项目 [https://github.com/lanzhihong6/stock-scanner](https://github.com/lanzhihong6/stock-scanner/) 的二次开发，取消了前端页面和 `nginx` ，保留了原项目的核心 `services` 和 `utils` ，将其转换成了 `MCP` 服务。
+
 ## 项目概述
 
-这是一个基于 FastAPI-MCP 的股票分析服务，旨在通过 MCP 工具函数接口提供股票相关的综合数据和分析能力，包括价格、评分、技术报告和 AI 分析。该服务整合了原有项目中的股票数据获取和分析功能，并提供了现代化的 API 接口，作为前端与后端服务之间的桥梁。
+这是一个基于 FastAPI-MCP 的股票分析服务，旨在通过 MCP 工具函数接口提供股票相关的综合数据和分析能力，包括价格、评分、技术报告和 AI 分析。该服务整合了原有项目 [https://github.com/lanzhihong6/stock-scanner](https://github.com/lanzhihong6/stock-scanner/) 中的股票数据获取和分析功能，并提供了现代化的 API 接口，作为前端与后端服务之间的桥梁。
 
 ## 功能特点
 
