@@ -42,7 +42,7 @@
 
     编辑 `.env` 文件，填写 API 密钥等信息。
 
-## 运行服务
+4.  **运行服务**
 
 ```bash
 python main.py
@@ -53,6 +53,40 @@ python main.py
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
+
+## Docker 安装与运行
+
+如果您希望通过 Docker 部署服务，可以按照以下步骤操作：
+
+1.  **克隆仓库**
+
+    ```bash
+    git clone https://github.com/wbsu2003/stock-scanner-mcp.git
+    cd stock-scanner-mcp
+    ```
+
+2.  **构建 Docker 镜像**
+
+    在项目根目录下执行以下命令构建 Docker 镜像：
+
+    ```bash
+    docker build -t stock-scanner-mcp .
+    ```
+
+3.  **运行 Docker 容器**
+
+    运行容器并映射端口。请确保通过环境变量 (`-e`) 或挂载 `.env` 文件来提供必要的配置信息，例如 API 密钥。
+
+    ```bash
+    docker run -d -p 8000:8000 --name stock-scanner-mcp-app \
+      -e API_KEY="您的API密钥" \
+      -e API_URL="您的API地址" \
+      -e API_MODEL="您的大语言模型" \
+      stock-scanner-mcp
+    ```
+    请将 `您的API密钥` 、"您的API地址" 、"您的大语言模型" 替换为实际的值。
+
+
 
 ## 主要 API 接口
 
