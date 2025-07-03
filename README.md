@@ -205,3 +205,13 @@ http://localhost:8000/docs
 ## 许可证
 
 MIT
+
+更多说明：
+
+- 博客： [股票分析MCP服务stock-scanner-mcp](https://laosu.tech/2025/07/02/股票分析MCP服务stock-scanner-mcp)
+- 公众号： [股票分析MCP服务stock-scanner-mcp](https://mp.weixin.qq.com/s/x60X3th9Doqm891_sUia1A)
+- CSDN： [股票分析MCP服务stock-scanner-mcp](https://blog.csdn.net/wbsu2004/article/details/149063663)
+
+
+
+
